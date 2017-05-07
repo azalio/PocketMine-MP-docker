@@ -1,9 +1,31 @@
-FROM alpine
+FROM debian:jessie-slim
 
-RUN apk add -U git
+RUN apt-get update
+RUN apt-get -y install wget
 
-RUN git clone https://github.com/PocketMine/PocketMine-MP.git
+RUN useradd pocketmine
+WORKDIR /home/pocketmine
 
-RUN apk add -U bash php7
+ADD server.properties .
+ADD pocketmine.yml .
 
-ENV PHP_BINARY /usr/bin/php7
+RUN wget -q -O - http://get.pocketmine.net/ > setup.sh
+
+RUN chmod +x setup.sh
+
+RUN chown -R pocketmine:pocketmine /home/pocketmine
+
+USER pocketmine
+
+RUN ./setup.sh
+RUN rm setup.sh
+
+USER root
+RUN apt-get -y remove wget
+RUN apt-get -y autoremove
+USER pocketmine
+
+EXPOSE 19132
+
+
+ENTRYPOINT ["./start.sh",  "-p", "./bin/php5/bin/php"]
