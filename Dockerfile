@@ -8,10 +8,11 @@ WORKDIR /home/pocketmine
 
 ADD server.properties .
 ADD pocketmine.yml .
+ADD entrypoint.sh .
 
 RUN wget -q -O - http://get.pocketmine.net/ > setup.sh
 
-RUN chmod +x setup.sh
+RUN chmod +x setup.sh entrypoint.sh
 
 RUN chown -R pocketmine:pocketmine /home/pocketmine
 
@@ -27,5 +28,4 @@ USER pocketmine
 
 EXPOSE 19132
 
-
-ENTRYPOINT ["./start.sh",  "-p", "./bin/php5/bin/php"]
+ENTRYPOINT ["./entrypoint.sh"]
