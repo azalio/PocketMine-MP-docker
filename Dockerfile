@@ -26,6 +26,6 @@ RUN apt-get -y remove wget
 RUN apt-get -y autoremove
 USER pocketmine
 
-EXPOSE 19132
+EXPOSE 19132/udp
 
 ENTRYPOINT ["./entrypoint.sh"]
