@@ -28,6 +28,6 @@ RUN chown -R pocketmine:pocketmine /home/pocketmine
 
 USER pocketmine
 
-EXPOSE 19132
+EXPOSE 19132/udp 19132/tcp
 
 CMD ["/home/pocketmine/entrypoint.sh"]
