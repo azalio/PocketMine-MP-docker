@@ -1,7 +1,7 @@
-FROM debian:jessie-slim
+FROM debian:stretch-slim
 
 RUN apt-get update
-RUN apt-get -y install wget
+RUN apt-get -y install curl
 
 RUN useradd pocketmine
 WORKDIR /home/pocketmine
@@ -9,17 +9,15 @@ WORKDIR /home/pocketmine
 ADD server.properties ./server.properties.example
 ADD pocketmine.yml ./pocketmine.yml.example
 
-RUN wget -q -O - http://get.pocketmine.net/ > setup.sh
-RUN chmod +x setup.sh
 RUN chown -R pocketmine:pocketmine /home/pocketmine
 
 USER pocketmine
 
-RUN ./setup.sh
-RUN rm setup.sh
+RUN curl -sL https://raw.githubusercontent.com/pmmp/php-build-scripts/master/installer.sh | bash -s -
 
 USER root
-RUN apt-get -y remove wget
+
+RUN apt-get -y remove curl
 RUN apt-get -y autoremove
 
 ADD entrypoint.sh .
