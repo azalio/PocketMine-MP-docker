@@ -15,4 +15,6 @@ else
     echo enable-rcon=on >> ./server.properties
 fi
 
-./start.sh
+chown -R pocketmine:pocketmine /home/pocketmine
+
+sudo -i -u pocketmine ./start.sh
